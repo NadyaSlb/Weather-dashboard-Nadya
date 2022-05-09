@@ -1,0 +1,18 @@
+header {
+    background-color: blue;
+    text-align: center;
+    color: white;
+};
+
+.card {
+    margin: 0 0 20px 0;
+    border: 3px solid var(--dark);
+    border-radius: var(--border-radius);
+  }
+
+.form-input,
+.form-textarea {
+  display: block;
+}
+
+
