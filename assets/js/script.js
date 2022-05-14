@@ -7,9 +7,15 @@ var liWindCurrent = document.querySelector('#windCurrent');
 var liHumCurrent = document.querySelector('#humCurrent');
 var liUvCurrent = document.querySelector('#uvCurrent');
 var currentDay = document.querySelector('#currentDay');
-var moment = moment().format("[(]M/D/YYYY[)]");
-var tomorrow = moment().add(2, 'd').calendar();
+var afterFour = moment().add(5, 'days').format("[(]M/D/YYYY[)]");
+var afterThree = moment().add(4, 'days').format("[(]M/D/YYYY[)]");
+var afterTwo = moment().add(3, 'days').format("[(]M/D/YYYY[)]");
+var afterOne = moment().add(2, 'days').format("[(]M/D/YYYY[)]");
+console.log(afterOne);
+var tomorrow = moment().add(1, 'days').format("[(]M/D/YYYY[)]");
 console.log(tomorrow);
+var moment = moment().format("[(]M/D/YYYY[)]");
+console.log(moment);
 var icon = document.querySelector('#icon');
 var dateOne = document.querySelector('#dateOne');
 var iconOne = document.querySelector('#iconOne');
@@ -36,6 +42,8 @@ var iconFive = document.querySelector('#iconFive');
 var tempFive = document.querySelector('#tempFive');
 var windFive = document.querySelector('#windFive');
 var humFive = document.querySelector('#humFive');
+var searchHistory = document.querySelector('#searchHistory');
+
 
 var formSearchHandler = function(event) {
     // prevent page from refreshing
@@ -45,11 +53,15 @@ var formSearchHandler = function(event) {
   
     if (city) {
       getCoordinates(city);
+      SaveCities(city);
+      //createSearchHistory(city);
       cityName.textContent = city;
       currentDay.textContent = moment;
-      dateOne.textContent = moment().add(1, 'day').format("[(]M/D/YYYY[)]");
-
-  
+      dateOne.textContent = tomorrow;
+      dateTwo.textContent = afterOne;
+      dateThree.textContent = afterTwo;
+      dateFour.textContent = afterThree;
+      dateFive.textContent = afterFour;
       // clear old content
       searchInputEl.value = "";
     } else {
@@ -178,5 +190,13 @@ var formSearchHandler = function(event) {
       alert("Unable to connect to OpenWeather");
     });
   };
-
+ 
+  var SaveCities = function(city){
+    var newCities = [];
+    newCities = JSON.parse(localStorage.getItem("cities")) || [];
+    newCities.push(city);
+    console.log(newCities);
+    localStorage.setItem("cities", JSON.stringify(newCities));
+  }
+  
   userFormEl.addEventListener("submit", formSearchHandler);
