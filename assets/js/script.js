@@ -89,7 +89,7 @@ var formSearchHandler = function(event) {
         }
       })
       .catch(function(error) {
-        alert("Unable to connect to GitHub");
+        alert("Unable to connect to OpenWeather");
       });
   };
 
