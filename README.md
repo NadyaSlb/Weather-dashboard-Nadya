@@ -11,7 +11,7 @@ A website that provides weather forecast
 * Moment.js
 
 ## Screenshot
-![Image alt](assets\images\Screenshot_1.jpg)
+![Image alt](https://github.com/NadyaSlb/Weather-dashboard-Nadya/blob/main/assets/images/Screenshot_1.jpg)
 
 ## Website
 https://nadyaslb.github.io/Weather-dashboard-Nadya/
