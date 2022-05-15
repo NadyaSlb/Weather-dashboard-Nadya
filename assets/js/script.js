@@ -70,7 +70,7 @@ var formSearchHandler = function(event) {
 
   // get coordinates
   var getCoordinates = function(city) {
-    var apiUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + city + "&limit=1&appid=" + apikey;
+    var apiUrl = "https://api.openweathermap.org/geo/1.0/direct?q=" + city + "&limit=1&appid=" + apikey;
     fetch(apiUrl)
       .then(function(response) {
         // request was successful
