@@ -22,19 +22,20 @@
     <div class="col-12 col-md-4">
       <div class="card">
         <h3 class="text-uppercase">Search For A City:</h3>
-        <form id="user-form">
-          <input id="userSearch" type="text" autofocus="true" class="form-input" />
-          <button type="submit" class="btn">Search</button>
+        <form id="user-form" class="">
+          <input id="userSearch" type="text" autofocus="true" class="" />
+          <button type="submit" class="btn btn-info">Search</button>
         </form>
       </div>
 
-      <div id="searchHistory" class="card">
+      <div id="searchHistory" class="card border-0">
+        <ul id="citiesList" class="list-unstyled text-capitalize"></ul>
     
       </div>
     </div>
 
     <div class="col-12 col-md-8">
-        <div id="currentDayDiv" class="border border-dark">
+        <div id="currentDayDiv" class="container">
             <div class="row">
                 <h2 id ="cityName" class = "text-capitalize"></h2>
                 <h2 id="currentDay"></h2>
@@ -44,14 +45,14 @@
                 <li id="tempCurrent"></li>
                 <li id="windCurrent"></li>
                 <li id="humCurrent"></li>
-                <li>UV Index <span id="uvCurrent"></span></li>
+                <li><span id = "textUV"></span><span id="uvCurrent"></span></li>
             </ul>
         </div>
 
         <div id = "forecast" >
-            <h2>5-Day Forecast:</h2>
-            <div class="row justify-content-sm-between">
-            <div id = dayOne class="bg-secondary light">
+            <h2 id = "forecastH"></h2>
+            <div class="row justify-content-between">
+            <div id = dayOne class="bg-secondary  text-light">
               <ul class="list-unstyled">
                 <li id="dateOne"></li>
                 <img id="iconOne"></img>
@@ -60,7 +61,7 @@
                 <li id="humOne"></li>
             </ul>
             </div>
-            <div id = dayTwo class="bg-secondary">
+            <div id = dayTwo class="bg-secondary  text-light">
               <ul class="list-unstyled">
                 <li id="dateTwo"></li>
                 <img id="iconTwo"></img>
@@ -69,7 +70,7 @@
                 <li id="humTwo"></li>
             </ul>
             </div>
-            <div id = dayThree class="bg-secondary">
+            <div id = dayThree class="bg-secondary  text-light">
               <ul class="list-unstyled">
                 <li id="dateThree"></li>
                 <img id="iconThree"></img>
@@ -78,7 +79,7 @@
                 <li id="humThree"></li>
             </ul>
             </div>
-            <div id = dayFour class="bg-secondary">
+            <div id = dayFour class="bg-secondary  text-light">
               <ul class="list-unstyled">
                 <li id="dateFour"></li>
                 <img id="iconFour"></img>
@@ -87,7 +88,7 @@
                 <li id="humFour"></li>
             </ul>
             </div>
-            <div id = dayFive class="bg-secondary">
+            <div id = dayFive class="bg-secondary  text-light">
               <ul class="list-unstyled">
                 <li id="dateFive"></li>
                 <img id="iconFive"></img>

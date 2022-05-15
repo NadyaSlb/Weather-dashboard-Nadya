@@ -6,17 +6,16 @@ var liTempCurrent = document.querySelector('#tempCurrent');
 var liWindCurrent = document.querySelector('#windCurrent');
 var liHumCurrent = document.querySelector('#humCurrent');
 var liUvCurrent = document.querySelector('#uvCurrent');
+var textUV = document.querySelector('#textUV');
 var currentDay = document.querySelector('#currentDay');
 var afterFour = moment().add(5, 'days').format("[(]M/D/YYYY[)]");
 var afterThree = moment().add(4, 'days').format("[(]M/D/YYYY[)]");
 var afterTwo = moment().add(3, 'days').format("[(]M/D/YYYY[)]");
 var afterOne = moment().add(2, 'days').format("[(]M/D/YYYY[)]");
-console.log(afterOne);
 var tomorrow = moment().add(1, 'days').format("[(]M/D/YYYY[)]");
-console.log(tomorrow);
 var moment = moment().format("[(]M/D/YYYY[)]");
-console.log(moment);
 var icon = document.querySelector('#icon');
+var forecastH = document.querySelector('#forecastH');
 var dateOne = document.querySelector('#dateOne');
 var iconOne = document.querySelector('#iconOne');
 var tempOne = document.querySelector('#tempOne');
@@ -43,18 +42,19 @@ var tempFive = document.querySelector('#tempFive');
 var windFive = document.querySelector('#windFive');
 var humFive = document.querySelector('#humFive');
 var searchHistory = document.querySelector('#searchHistory');
+var citiesList = document.querySelector('#citiesList');
+var currentDayDiv = document.querySelector('#currentDayDiv');
 
-
+// press search button
 var formSearchHandler = function(event) {
-    // prevent page from refreshing
     event.preventDefault();
     var city = searchInputEl.value.trim();
-    console.log(city);
   
     if (city) {
       getCoordinates(city);
       SaveCities(city);
-      //createSearchHistory(city);
+      clearList();
+      displayCities();
       cityName.textContent = city;
       currentDay.textContent = moment;
       dateOne.textContent = tomorrow;
@@ -62,13 +62,13 @@ var formSearchHandler = function(event) {
       dateThree.textContent = afterTwo;
       dateFour.textContent = afterThree;
       dateFive.textContent = afterFour;
-      // clear old content
       searchInputEl.value = "";
     } else {
       alert("Please enter a city");
     }
   };
 
+  // get coordinates
   var getCoordinates = function(city) {
     var apiUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + city + "&limit=1&appid=" + apikey;
     fetch(apiUrl)
@@ -93,22 +93,21 @@ var formSearchHandler = function(event) {
       });
   };
 
+  // display weather
   var getWeather = function(cityLat, cityLon){
-
     var apiUr2 = "https://api.openweathermap.org/data/2.5/onecall?lat=" + cityLat + "&lon=" + cityLon + "&units=imperial&appid=" + apikey;
     fetch(apiUr2)
     .then(function(response) {
       // request was successful
       if (response.ok) {
-        console.log(response);
         response.json().then(function(data) {
-       console.log(data);
        var tempCurrent = data.current.temp;
        liTempCurrent.textContent = "Temp: " + tempCurrent + " F";
        var windCurrent = data.current.wind_speed;
        liWindCurrent.textContent = "Wind: " + windCurrent + " MPH";
        var humCurrent = data.current.humidity;
        liHumCurrent.textContent = "Humidity: " + humCurrent + " %";
+       forecastH.textContent = "5-Day Forecast:";
       var iconDayOne = data.daily[0].weather[0].icon;
       iconOne.setAttribute("src", "http://openweathermap.org/img/wn/" + iconDayOne + ".png");
       var iconDayTwo = data.daily[1].weather[0].icon;
@@ -120,7 +119,6 @@ var formSearchHandler = function(event) {
       var iconDayFive = data.daily[4].weather[0].icon;
       iconFive.setAttribute("src", "http://openweathermap.org/img/wn/" + iconDayFive + ".png");
       var tempDayOne = data.daily[0].temp.day;
-      console.log(tempDayOne);
       tempOne.textContent = "Temp: " + tempDayOne + " F";
       var tempDayTwo = data.daily[1].temp.day;
       tempTwo.textContent = "Temp: " + tempDayTwo + " F";
@@ -151,6 +149,7 @@ var formSearchHandler = function(event) {
       var humDayFive = data.daily[4].humidity;
       humFive.textContent = "Humidity: " + humDayFive + " %";
        var uvCurrent = data.current.uvi;
+       textUV.textContent = "UV Index ";
        liUvCurrent.textContent = uvCurrent;
        if (uvCurrent < 3){
          liUvCurrent.classList.add("bg-success");
@@ -169,17 +168,15 @@ var formSearchHandler = function(event) {
     });
   };
 
+  // get icon
   var geticoncode = function(cityLat, cityLon){
     var apiUr3 = "https://api.openweathermap.org/data/2.5/weather?lat=" + cityLat + "&lon=" + cityLon + "&units=imperial&appid=" + apikey;
     fetch(apiUr3)
     .then(function(response) {
       // request was successful
       if (response.ok) {
-        console.log(response);
         response.json().then(function(data) {
-          console.log(data);
        var iconcode = data.weather[0].icon;
-       console.log(iconcode);
        icon.setAttribute("src", "http://openweathermap.org/img/wn/" + iconcode + ".png");
         });
       } else {
@@ -191,6 +188,7 @@ var formSearchHandler = function(event) {
     });
   };
  
+  // save cities to local storage
   var SaveCities = function(city){
     var newCities = [];
     newCities = JSON.parse(localStorage.getItem("cities")) || [];
@@ -198,5 +196,42 @@ var formSearchHandler = function(event) {
     console.log(newCities);
     localStorage.setItem("cities", JSON.stringify(newCities));
   }
-  
+
+// list of saved cities
+var displayCities = function(savedCity){
+  var cities = [];
+  cities = JSON.parse(localStorage.getItem("cities")) || [];
+  for (var i = 0; i < cities.length; i++) {
+    var savedCity = cities[i];
+    var cityE1 = document.createElement("li");
+    citiesList.appendChild(cityE1);
+    cityE1.textContent = savedCity;
+    cityE1.classList = "list";
+    cityE1.setAttribute("id", savedCity);
+  }
+}
+
+// weather from search history
+var savedWeather = function(event){
+  city = event.target.getAttribute("id");
+  getCoordinates(city);
+  cityName.textContent = city;
+  currentDay.textContent = moment;
+      dateOne.textContent = tomorrow;
+      dateTwo.textContent = afterOne;
+      dateThree.textContent = afterTwo;
+      dateFour.textContent = afterThree;
+      dateFive.textContent = afterFour;
+}
+
+// clear previous search history
+var clearList = function(){
+  citiesList.innerHTML = "";
+}
+
+// display search history
+displayCities();
+
+// event handlers
   userFormEl.addEventListener("submit", formSearchHandler);
+  citiesList.addEventListener("click", savedWeather);

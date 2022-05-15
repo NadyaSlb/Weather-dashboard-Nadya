@@ -1,20 +1,21 @@
 header {
-    background-color: blue;
-    text-align: center;
-    color: white;
-};
-
+  color: white;
+  background-color: rgb(14, 148, 182);
+  text-align: center;
+}
 .card {
     margin: 0 0 20px 0;
     border: 3px solid var(--dark);
     border-radius: var(--border-radius);
   };
 
-.form-input,
-.form-textarea {
-  display: block;
-};
-
 ul {
   list-style-type: none;
+}
+
+.list {
+  background-color: rgb(14, 148, 182);
+  color: white;
+  margin-bottom: 10px;
+  text-align: center;
 }
